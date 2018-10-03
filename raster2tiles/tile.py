@@ -11,6 +11,7 @@ BoundingBox = namedtuple('BoundingBox', ['minx', 'maxx', 'miny', 'maxy'])
 
 MAX_ZOOM_LEVEL = 32
 
+
 def open_raster(raster_filepath):
     return gdal.Open(raster_filepath, gdal.GA_ReadOnly)
 
@@ -38,10 +39,12 @@ def _get_srs_from_epsg_code(code):
     srs.ImportFromEPSG(code)
     return srs
 
+
 def _resolution(zoom, tile_size=256):
     initial_resolution = 2 * math.pi * 6378137 / tile_size
     res = initial_resolution / (2 ** zoom)
     return res
+
 
 def _meters2pixel(x, y, zoom, tile_size=256):
     origin_shift = 2 * math.pi * 6378137 / 2.0
@@ -57,6 +60,7 @@ def _pixels2meters(px, py, zoom, tile_size=256):
     mx = px * res - origin_shift
     my = py * res - origin_shift
     return mx, my
+
 
 def _pixels2tile(px, py, tile_size=256):
     tx = int(math.ceil(px / float(tile_size)) - 1)
@@ -162,6 +166,7 @@ def _generate_tile(ds, zoom, bounds, tile_size=256):
 
             yield (ty, tx), data
 
+
 def raster2tiles(input_raster, min_zoom=None, max_zoom=None):
     if not _check_raster_format(input_raster):
         raise RuntimeError('Invalid raster format. Only rasters with 1, 3 or 4 bands are alowed!')
@@ -189,7 +194,8 @@ def raster2tiles(input_raster, min_zoom=None, max_zoom=None):
     tile_size = 256
 
     # get minimal zoom level (out_geotranform[1] == raster pixel width)
-    min_zoom_level = min_zoom or _zoom_for_pixel_size(out_geotransform[1] * max(out_raster.RasterXSize, out_raster.RasterYSize) / float(tile_size))
+    max_raster = max(out_raster.RasterXSize, out_raster.RasterYSize)
+    min_zoom_level = min_zoom or _zoom_for_pixel_size(out_geotransform[1] * max_raster / float(tile_size))
     max_zoom_level = max_zoom or _zoom_for_pixel_size(out_geotransform[1])
 
     tiles_min_max_coordinates = {}

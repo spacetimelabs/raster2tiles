@@ -2,11 +2,9 @@
 
 from __future__ import print_function
 import sys
-import json
 from os import path
 from datetime import datetime
 from cStringIO import StringIO
-import psycopg2
 import numpy as np
 import scipy.misc
 from sqlalchemy.dialects.postgresql import insert

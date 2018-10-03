@@ -26,6 +26,7 @@ def create_connection(uri):
     """Create a database connection."""
     return sa.create_engine(uri)
 
+
 def create_tables(db):
     """Create database tables."""
     return metadata.create_all(db)
