@@ -1,47 +1,32 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
+from codecs import open
+from os import path
 
+__version__ = '0.0.3'
 
-setup(name='raster2tiles',
-      version='0.0.3',
-      packages=find_packages(),
-      python_requires='>=2.7,<3',
-      setup_requires=['Cython>=0.25.2', 'numpy>=1.13.1'],
-      install_requires=[
-        'backports.shutil-get-terminal-size>=1.0.0',
-        'cycler>=0.10.0',
-        'decorator>=4.1.2',
-        'enum34>=1.1.6',
-        'functools32>=3.2.3.post2',
-        'GDAL==2.2.1',
-        'numpy>=1.13.1',
-        'olefile>=0.44',
-        'pathlib2>=2.3.0',
-        'pexpect>=4.2.1',
-        'pickleshare>=0.7.4',
-        'Pillow>=4.2.1',
-        'prompt-toolkit>=1.0.15',
-        'psycopg2>=2.7.3.1',
-        'ptyprocess>=0.5.2',
-        'Pygments>=2.2.0',
-        'pyparsing>=2.2.0',
-        'python-dateutil>=2.6.1',
-        'pytz>=2017.2',
-        'scandir>=1.5',
-        'scipy>=0.19.1',
-        'simplegeneric>=0.8.1',
-        'six>=1.10.0',
-        'SQLAlchemy>=1.2.0b2',
-        'subprocess32>=3.2.7',
-        'traitlets>=4.3.2',
-        'wcwidth>=0.1.7'
-      ],
-      entry_points='''
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
+    all_reqs = f.read().split('\n')
+
+install_requires = [x.strip() for x in all_reqs if 'git+' not in x]
+
+setup(
+    name='raster2tiles',
+    version=__version__,
+    packages=find_packages(),
+    url='https://github.com/spacetimelabs/raster2tiles',
+    python_requires='>=2.7,<3',
+    setup_requires=['Cython>=0.25.2', 'numpy>=1.13.1'],
+    install_requires=install_requires,
+    entry_points='''
         [console_scripts]
         raster2tiles=raster2tiles.cli:go
-      ''',
-      zip_safe=False,
-      author='Spacetime Labs',
-      author_email='dev@spacetimelabs.ai',
+    ''',
+    keywords='Rasterio',
+    zip_safe=False,
+    author='Spacetime Labs',
+    author_email='dev@spacetimelabs.ai',
 )
