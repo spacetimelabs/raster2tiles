@@ -5,7 +5,7 @@ enum34==1.1.6
 functools32==3.2.3.post2
 GDAL==2.2.1
 ipdb==0.10.3
-ipython==5.4.1
+ipython==7.16.3
 ipython-genutils==0.2.0
 numpy==1.13.1
 olefile==0.44
